@@ -25,91 +25,91 @@
 <body>
 
 <div id="quiz-container">
-    <h1>ðŸ“ Geometria: Tajna BroÅ„</h1>
-    <div id="progress" style="margin-bottom:15px; color:#666;">Åadowanie...</div>
+    <h1>📐 Geometria: Tajna Broń</h1>
+    <div id="progress" style="margin-bottom:15px; color:#666;">Ładowanie...</div>
     
     <img id="question-image" src="" alt="Zadanie">
     
     <div id="question-text" class="question"></div>
 
-    <button id="hint-toggle" class="hint-btn" onclick="toggleHint()">ðŸ’¡ PotrzebujÄ™ koÅ‚a ratunkowego</button>
+    <button id="hint-toggle" class="hint-btn" onclick="toggleHint()">💡 Potrzebuję koła ratunkowego</button>
     <div id="hint-box" class="hint-text"></div>
     
     <div id="answers"></div>
     <div id="feedback" class="feedback"></div>
-    <button id="next-btn" class="btn" style="background-color: #2196F3; display:none; margin-top:20px;" onclick="nextQuestion()">NastÄ™pne pytanie âž¡ï¸</button>
+    <button id="next-btn" class="btn" style="background-color: #2196F3; display:none; margin-top:20px;" onclick="nextQuestion()">Następne pytanie ➡️</button>
 </div>
 
 <script>
-    // BAZA PYTAÅƒ Z PODPOWIEDZIAMI
+    // BAZA PYTAŃ Z PODPOWIEDZIAMI
     const rawQuestions = [
-        // --- GEOMETRIA P?ASKA (K?TY) ---
+        // --- GEOMETRIA PŁASKA (KĄTY) ---
         {
-            q: "Zadanie 5: Sp¨®jrz na tr¨®jk?t. Mamy k?ty 80¡ã i 40¡ã. Ile musi mie? trzeci k?t (x), skoro suma to zawsze 180¡ã?",
+            q: "Zadanie 5: Spójrz na trójkąt. Mamy kąty 80° i 40°. Ile musi mieć trzeci kąt (x), skoro suma to zawsze 180°?",
             imgSrc: "zad5.jpg",
-            hint: "Dzia?anie: 180 - (80 + 40) = ...",
-            a: ["60¡ã", "100¡ã", "40¡ã", "120¡ã"],
+            hint: "Działanie: 180 - (80 + 40) = ...",
+            a: ["60°", "100°", "40°", "120°"],
             correct: 0
         },
         {
-            q: "Zadanie 6: To s? k?ty wierzcho?kowe (le?? naprzeciwko siebie). Jak? miar? ma k?t x?",
+            q: "Zadanie 6: To są kąty wierzchołkowe (leżą naprzeciwko siebie). Jaką miarę ma kąt x?",
             imgSrc: "zad6.jpg",
-            hint: "K?ty wierzcho?kowe s? zawsze R¨®WNE.",
-            a: ["40¡ã", "140¡ã", "180¡ã", "90¡ã"],
+            hint: "Kąty wierzchołkowe są zawsze RÓWNE.",
+            a: ["40°", "140°", "180°", "90°"],
             correct: 0
         },
         {
-            q: "Jak nazywamy k?t, kt¨®ry jest wi?kszy ni? 180¡ã (wygl?da jak nadgryzione ciastko)?",
-            imgSrc: null, // Tu nie trzeba obrazka, ?wiczymy wyobra?ni?/nazw?
-            hint: "Jest 'wkl??ni?ty' do ?rodka.",
-            a: ["K?t wkl?s?y", "K?t rozwarty", "K?t p¨®?pe?ny", "K?t ostry"],
+            q: "Jak nazywamy kąt, który jest większy niż 180° (wygląda jak nadgryzione ciastko)?",
+            imgSrc: null, // Tu nie trzeba obrazka, ćwiczymy wyobraźnię/nazwę
+            hint: "Jest 'wklęśnięty' do środka.",
+            a: ["Kąt wklęsły", "Kąt rozwarty", "Kąt półpełny", "Kąt ostry"],
             correct: 0
         },
 
         // --- POLA FIGUR (LICZENIE) ---
         {
-            q: "Zadanie 11: Oblicz pole tr¨®jk?ta. Podstawa a=8 cm, wysoko?? h=3 cm.",
+            q: "Zadanie 11: Oblicz pole trójkąta. Podstawa a=8 cm, wysokość h=3 cm.",
             imgSrc: "zad11.jpg",
-            hint: "Wz¨®r na tr¨®jk?t: (a * h) / 2. Czyli (8 * 3) podzielone na p¨®?.",
-            a: ["12 cm2", "24 cm2", "11 cm2", "6 cm2"],
+            hint: "Wzór na trójkąt: (a * h) / 2. Czyli (8 * 3) podzielone na pół.",
+            a: ["12 cm²", "24 cm²", "11 cm²", "6 cm²"],
             correct: 0
         },
         {
-            q: "Zadanie 12: Oblicz pole r¨®wnoleg?oboku. Podstawa a=7 cm, wysoko?? h=5 cm.",
+            q: "Zadanie 12: Oblicz pole równoległoboku. Podstawa a=7 cm, wysokość h=5 cm.",
             imgSrc: "zad12.jpg",
-            hint: "Wz¨®r na r¨®wnoleg?obok to po prostu: a * h. Nie dzielimy na p¨®?!",
-            a: ["35 cm2", "17,5 cm2", "12 cm2", "70 cm2"],
+            hint: "Wzór na równoległobok to po prostu: a * h. Nie dzielimy na pół!",
+            a: ["35 cm²", "17,5 cm²", "12 cm²", "70 cm²"],
             correct: 0
         },
         {
             q: "Zadanie 9: Jakie pole ma kwadrat o boku a=4 cm?",
             imgSrc: null,
             hint: "Pole kwadratu to bok razy bok (a * a).",
-            a: ["16 cm2", "8 cm2", "20 cm2", "12 cm2"],
+            a: ["16 cm²", "8 cm²", "20 cm²", "12 cm²"],
             correct: 0
         },
         {
-            q: "Zadanie 13 (Dla ambitnych): Ta figura to trapez. G¨®rna podstawa ma 5cm, dolna ma 7cm (5+2), wysoko?? 3cm.",
+            q: "Zadanie 13 (Dla ambitnych): Ta figura to trapez. Górna podstawa ma 5cm, dolna ma 7cm (5+2), wysokość 3cm.",
             imgSrc: "zad13.jpg",
-            hint: "Mo?esz to policzy? jako Prostok?t (5*3) doda? Tr¨®jk?t (2*3 / 2).",
-            a: ["18 cm2", "15 cm2", "21 cm2", "35 cm2"],
+            hint: "Możesz to policzyć jako Prostokąt (5*3) dodać Trójkąt (2*3 / 2).",
+            a: ["18 cm²", "15 cm²", "21 cm²", "35 cm²"],
             correct: 0
-            // Wyja?nienie dla Ciebie: Prostok?t 15 + Tr¨®jk?t 3 = 18.
+            // Wyjaśnienie dla Ciebie: Prostokąt 15 + Trójkąt 3 = 18.
         },
 
         // --- JEDNOSTKI ---
         {
-            q: "Zadanie 10: Zamiana jednostek. 4 ary (a) - ile to metr¨®w kwadratowych?",
+            q: "Zadanie 10: Zamiana jednostek. 4 ary (a) - ile to metrów kwadratowych?",
             imgSrc: null,
-            hint: "Jeden ar to kwadrat 10m na 10m, czyli ma 100 m2. Pomn¨®? 4 * 100.",
-            a: ["400 m2", "40 m2", "4000 m2", "4 m2"],
+            hint: "Jeden ar to kwadrat 10m na 10m, czyli ma 100 m². Pomnóż 4 * 100.",
+            a: ["400 m²", "40 m²", "4000 m²", "4 m²"],
             correct: 0
         },
         {
-            q: "Ile stopni ma suma k?t¨®w wewn?trznych w KA?DYM tr¨®jk?cie?",
+            q: "Ile stopni ma suma kątów wewnętrznych w KAŻDYM trójkącie?",
             imgSrc: null,
-            hint: "Zapami?taj liczb? magiczn? dla tr¨®jk?t¨®w. K?t p¨®?pe?ny.",
-            a: ["180¡ã", "360¡ã", "90¡ã", "100¡ã"],
+            hint: "Zapamiętaj liczbę magiczną dla trójkątów. Kąt półpełny.",
+            a: ["180°", "360°", "90°", "100°"],
             correct: 0
         }
     ];
@@ -140,9 +140,9 @@
         
         // Resetujemy widok podpowiedzi
         document.getElementById('hint-box').style.display = "none";
-        document.getElementById('hint-toggle').style.display = "inline-block"; // PokaÅ¼ przycisk
+        document.getElementById('hint-toggle').style.display = "inline-block"; // Pokaż przycisk
         
-        // JeÅ›li pytanie nie ma podpowiedzi (pole hint jest puste), ukryj przycisk
+        // Jeśli pytanie nie ma podpowiedzi (pole hint jest puste), ukryj przycisk
         if (!q.hint) {
             document.getElementById('hint-toggle').style.display = "none";
         } else {
@@ -195,18 +195,18 @@
         const buttons = document.querySelectorAll('#answers .btn');
         buttons.forEach(btn => btn.disabled = true);
 
-        // Ukryj przycisk podpowiedzi po odpowiedzi, Å¼eby nie rozpraszaÅ‚
+        // Ukryj przycisk podpowiedzi po odpowiedzi, żeby nie rozpraszał
         document.getElementById('hint-toggle').style.display = "none"; 
         document.getElementById('hint-box').style.display = "none";
 
         if (isCorrect) {
             btnElement.style.backgroundColor = "#4CAF50";
-            document.getElementById('feedback').textContent = "Brawo! JesteÅ› wielka! ðŸŒŸ"; // Wzmocnienie pozytywne
+            document.getElementById('feedback').textContent = "Brawo! Jesteś wielka! 🌟"; // Wzmocnienie pozytywne
             document.getElementById('feedback').className = "feedback correct";
             score++;
         } else {
             btnElement.style.backgroundColor = "#f44336";
-            document.getElementById('feedback').textContent = "Jeszcze chwila treningu i bÄ™dzie dobrze.";
+            document.getElementById('feedback').textContent = "Jeszcze chwila treningu i będzie dobrze.";
             document.getElementById('feedback').className = "feedback wrong";
             
             const correctAnsObj = allAnswers.find(a => a.isCorrect);
@@ -226,8 +226,8 @@
         } else {
             document.getElementById('quiz-container').innerHTML = `
                 <h1>Koniec treningu!</h1>
-                <div style="font-size:1.5em; color:#e65100; margin:20px;">TwÃ³j wynik: ${score} / ${questions.length}</div>
-                <p>NiewaÅ¼ne co mÃ³wiÄ… w szkole - tutaj rzÄ…dzisz Ty! ðŸ˜Ž</p>
+                <div style="font-size:1.5em; color:#e65100; margin:20px;">Twój wynik: ${score} / ${questions.length}</div>
+                <p>Nieważne co mówią w szkole - tutaj rządzisz Ty! 😎</p>
                 <button class="btn" onclick="location.reload()">Jeszcze raz</button>
             `;
         }
