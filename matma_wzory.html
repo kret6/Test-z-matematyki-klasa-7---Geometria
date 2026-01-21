@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matematyka: Trening Mistrza</title>
+<style>
+    body { font-family: 'Verdana', sans-serif; background-color: #fff3e0; padding: 10px; text-align: center; }
+    #quiz-container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    h1 { color: #e65100; margin-bottom: 10px; font-size: 1.5em; }
+    .question { font-size: 1.3em; margin-bottom: 20px; font-weight: bold; color: #333; }
+    
+    /* Nowy styl dla przycisku podpowiedzi */
+    .hint-btn { background-color: #ffca28; color: #333; font-weight: bold; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; margin-bottom: 15px; display: inline-block; }
+    .hint-text { display: none; background-color: #fff8e1; border: 1px dashed #ffb300; padding: 10px; margin: 10px 0; color: #555; font-style: italic; }
+
+    .btn { display: block; width: 100%; padding: 18px; margin: 10px 0; font-size: 1.2em; cursor: pointer; background-color: #ff9800; color: white; border: none; border-radius: 12px; transition: 0.2s; }
+    .btn:disabled { background-color: #ccc; cursor: not-allowed; }
+    .feedback { font-size: 1.2em; margin-top: 15px; font-weight: bold; min-height: 30px; }
+    .correct { color: green; }
+    .wrong { color: red; }
+    #question-image { max-width: 100%; height: auto; border-radius: 10px; border: 2px solid #ddd; display: none; margin: 0 auto 15px auto; }
+</style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <h1>üìê Geometria: Tajna Bro≈Ñ</h1>
+    <div id="progress" style="margin-bottom:15px; color:#666;">≈Åadowanie...</div>
+    
+    <img id="question-image" src="" alt="Zadanie">
+    
+    <div id="question-text" class="question"></div>
+
+    <button id="hint-toggle" class="hint-btn" onclick="toggleHint()">üí° Potrzebujƒô ko≈Ça ratunkowego</button>
+    <div id="hint-box" class="hint-text"></div>
+    
+    <div id="answers"></div>
+    <div id="feedback" class="feedback"></div>
+    <button id="next-btn" class="btn" style="background-color: #2196F3; display:none; margin-top:20px;" onclick="nextQuestion()">Nastƒôpne pytanie ‚û°Ô∏è</button>
+</div>
+
+<script>
+    // BAZA PYTA≈É Z PODPOWIEDZIAMI
+    const rawQuestions = [
+        // --- GEOMETRIA P?ASKA (K?TY) ---
+        {
+            q: "Zadanie 5: Sp®Æjrz na tr®Æjk?t. Mamy k?ty 80°„ i 40°„. Ile musi mie? trzeci k?t (x), skoro suma to zawsze 180°„?",
+            imgSrc: "zad5.jpg",
+            hint: "Dzia?anie: 180 - (80 + 40) = ...",
+            a: ["60°„", "100°„", "40°„", "120°„"],
+            correct: 0
+        },
+        {
+            q: "Zadanie 6: To s? k?ty wierzcho?kowe (le?? naprzeciwko siebie). Jak? miar? ma k?t x?",
+            imgSrc: "zad6.jpg",
+            hint: "K?ty wierzcho?kowe s? zawsze R®ÆWNE.",
+            a: ["40°„", "140°„", "180°„", "90°„"],
+            correct: 0
+        },
+        {
+            q: "Jak nazywamy k?t, kt®Æry jest wi?kszy ni? 180°„ (wygl?da jak nadgryzione ciastko)?",
+            imgSrc: null, // Tu nie trzeba obrazka, ?wiczymy wyobra?ni?/nazw?
+            hint: "Jest 'wkl??ni?ty' do ?rodka.",
+            a: ["K?t wkl?s?y", "K?t rozwarty", "K?t p®Æ?pe?ny", "K?t ostry"],
+            correct: 0
+        },
+
+        // --- POLA FIGUR (LICZENIE) ---
+        {
+            q: "Zadanie 11: Oblicz pole tr®Æjk?ta. Podstawa a=8 cm, wysoko?? h=3 cm.",
+            imgSrc: "zad11.jpg",
+            hint: "Wz®Ær na tr®Æjk?t: (a * h) / 2. Czyli (8 * 3) podzielone na p®Æ?.",
+            a: ["12 cm2", "24 cm2", "11 cm2", "6 cm2"],
+            correct: 0
+        },
+        {
+            q: "Zadanie 12: Oblicz pole r®Æwnoleg?oboku. Podstawa a=7 cm, wysoko?? h=5 cm.",
+            imgSrc: "zad12.jpg",
+            hint: "Wz®Ær na r®Æwnoleg?obok to po prostu: a * h. Nie dzielimy na p®Æ?!",
+            a: ["35 cm2", "17,5 cm2", "12 cm2", "70 cm2"],
+            correct: 0
+        },
+        {
+            q: "Zadanie 9: Jakie pole ma kwadrat o boku a=4 cm?",
+            imgSrc: null,
+            hint: "Pole kwadratu to bok razy bok (a * a).",
+            a: ["16 cm2", "8 cm2", "20 cm2", "12 cm2"],
+            correct: 0
+        },
+        {
+            q: "Zadanie 13 (Dla ambitnych): Ta figura to trapez. G®Ærna podstawa ma 5cm, dolna ma 7cm (5+2), wysoko?? 3cm.",
+            imgSrc: "zad13.jpg",
+            hint: "Mo?esz to policzy? jako Prostok?t (5*3) doda? Tr®Æjk?t (2*3 / 2).",
+            a: ["18 cm2", "15 cm2", "21 cm2", "35 cm2"],
+            correct: 0
+            // Wyja?nienie dla Ciebie: Prostok?t 15 + Tr®Æjk?t 3 = 18.
+        },
+
+        // --- JEDNOSTKI ---
+        {
+            q: "Zadanie 10: Zamiana jednostek. 4 ary (a) - ile to metr®Æw kwadratowych?",
+            imgSrc: null,
+            hint: "Jeden ar to kwadrat 10m na 10m, czyli ma 100 m2. Pomn®Æ? 4 * 100.",
+            a: ["400 m2", "40 m2", "4000 m2", "4 m2"],
+            correct: 0
+        },
+        {
+            q: "Ile stopni ma suma k?t®Æw wewn?trznych w KA?DYM tr®Æjk?cie?",
+            imgSrc: null,
+            hint: "Zapami?taj liczb? magiczn? dla tr®Æjk?t®Æw. K?t p®Æ?pe?ny.",
+            a: ["180°„", "360°„", "90°„", "100°„"],
+            correct: 0
+        }
+    ];
+
+    let questions = [];
+    let currentQuestion = 0;
+    let score = 0;
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function initQuiz() {
+        let allQuestions = JSON.parse(JSON.stringify(rawQuestions));
+        shuffleArray(allQuestions);
+        questions = allQuestions;
+        currentQuestion = 0;
+        score = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const q = questions[currentQuestion];
+        
+        // Resetujemy widok podpowiedzi
+        document.getElementById('hint-box').style.display = "none";
+        document.getElementById('hint-toggle').style.display = "inline-block"; // Poka≈º przycisk
+        
+        // Je≈õli pytanie nie ma podpowiedzi (pole hint jest puste), ukryj przycisk
+        if (!q.hint) {
+            document.getElementById('hint-toggle').style.display = "none";
+        } else {
+            document.getElementById('hint-box').textContent = q.hint;
+        }
+
+        // Obrazek
+        const imgElement = document.getElementById('question-image');
+        if (q.imgSrc) {
+            imgElement.src = q.imgSrc;
+            imgElement.style.display = "block";
+        } else {
+            imgElement.style.display = "none";
+        }
+
+        document.getElementById('question-text').textContent = q.q;
+        document.getElementById('progress').textContent = `Pytanie ${currentQuestion + 1} z ${questions.length}`;
+        document.getElementById('feedback').textContent = "";
+        document.getElementById('feedback').className = "feedback";
+        document.getElementById('next-btn').style.display = "none";
+        
+        const answersDiv = document.getElementById('answers');
+        answersDiv.innerHTML = "";
+
+        let answers = q.a.map((text, index) => {
+            return { text: text, isCorrect: (index === q.correct) };
+        });
+        
+        shuffleArray(answers);
+
+        answers.forEach((ans) => {
+            const btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.textContent = ans.text;
+            btn.onclick = () => checkAnswer(ans.isCorrect, btn, answers);
+            answersDiv.appendChild(btn);
+        });
+    }
+
+    function toggleHint() {
+        const hintBox = document.getElementById('hint-box');
+        if (hintBox.style.display === "none") {
+            hintBox.style.display = "block";
+        } else {
+            hintBox.style.display = "none";
+        }
+    }
+
+    function checkAnswer(isCorrect, btnElement, allAnswers) {
+        const buttons = document.querySelectorAll('#answers .btn');
+        buttons.forEach(btn => btn.disabled = true);
+
+        // Ukryj przycisk podpowiedzi po odpowiedzi, ≈ºeby nie rozprasza≈Ç
+        document.getElementById('hint-toggle').style.display = "none"; 
+        document.getElementById('hint-box').style.display = "none";
+
+        if (isCorrect) {
+            btnElement.style.backgroundColor = "#4CAF50";
+            document.getElementById('feedback').textContent = "Brawo! Jeste≈õ wielka! üåü"; // Wzmocnienie pozytywne
+            document.getElementById('feedback').className = "feedback correct";
+            score++;
+        } else {
+            btnElement.style.backgroundColor = "#f44336";
+            document.getElementById('feedback').textContent = "Jeszcze chwila treningu i bƒôdzie dobrze.";
+            document.getElementById('feedback').className = "feedback wrong";
+            
+            const correctAnsObj = allAnswers.find(a => a.isCorrect);
+            buttons.forEach(b => {
+                if (b.textContent === correctAnsObj.text) {
+                    b.style.backgroundColor = "#4CAF50";
+                }
+            });
+        }
+        document.getElementById('next-btn').style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+            loadQuestion();
+        } else {
+            document.getElementById('quiz-container').innerHTML = `
+                <h1>Koniec treningu!</h1>
+                <div style="font-size:1.5em; color:#e65100; margin:20px;">Tw√≥j wynik: ${score} / ${questions.length}</div>
+                <p>Niewa≈ºne co m√≥wiƒÖ w szkole - tutaj rzƒÖdzisz Ty! üòé</p>
+                <button class="btn" onclick="location.reload()">Jeszcze raz</button>
+            `;
+        }
+    }
+
+    initQuiz();
+</script>
+
+</body>
+</html>
