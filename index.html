@@ -43,7 +43,92 @@
 <script>
     // BAZA PYTAŃ Z PODPOWIEDZIAMI
     const rawQuestions = [
-        // --- GEOMETRIA PŁASKA (KĄTY) ---
+        // --- TWIERDZENIE PITAGORASA (PODSTAWY) ---
+        {
+            q: "Jak brzmi Twierdzenie Pitagorasa?",
+            imgSrc: null, 
+            hint: "Suma kwadratów przyprostokątnych jest równa kwadratowi przeciwprostokątnej.",
+            a: ["a² + b² = c²", "a + b = c", "a² - b² = c²", "a² * b² = c²"],
+            correct: 0
+        },
+        {
+            q: "Przyprostokątne mają długości 3 i 4. Ile wynosi przeciwprostokątna (c)?",
+            imgSrc: null,
+            hint: "Policz: 3² + 4² = 9 + 16 = 25. Jaka liczba do kwadratu daje 25?",
+            a: ["5", "7", "6", "25"],
+            correct: 0
+        },
+        {
+            q: "Mamy trójkąt prostokątny. Przeciwprostokątna c=10, jedna przyprostokątna a=6. Oblicz drugą (b).",
+            imgSrc: null, 
+            hint: "Wzór przekształcony: b² = c² - a². Czyli: 100 - 36 = 64.",
+            a: ["8", "4", "16", "64"],
+            correct: 0
+        },
+
+        // --- KWADRAT I JEGO PRZEKĄTNA ---
+        {
+            q: "Wzór na przekątną kwadratu (d) o boku 'a' to:",
+            imgSrc: null,
+            hint: "Przekątna jest dłuższa od boku o pierwiastek z dwóch.",
+            a: ["a√2", "a√3", "a / 2", "a²"],
+            correct: 0
+        },
+        {
+            q: "Bok kwadratu ma 5 cm. Ile ma jego przekątna?",
+            imgSrc: null,
+            hint: "Podstaw do wzoru a√2.",
+            a: ["5√2 cm", "10 cm", "5√3 cm", "25 cm"],
+            correct: 0
+        },
+        {
+            q: "Przekątna kwadratu wynosi 6√2. Jaki jest bok tego kwadratu?",
+            imgSrc: null,
+            hint: "Skoro wzór to a√2, a my mamy 6√2, to co stoi przed pierwiastkiem?",
+            a: ["6", "3", "12", "6√2"],
+            correct: 0
+        },
+
+        // --- TRÓJKĄT RÓWNOBOCZNY ---
+        {
+            q: "Wzór na wysokość (h) trójkąta równobocznego o boku 'a' to:",
+            imgSrc: null,
+            hint: "Zapamiętaj: 'a' razy pierwiastek z TRZECH przez DWA.",
+            a: ["(a√3) / 2", "a√2", "(a√2) / 2", "a√3"],
+            correct: 0
+        },
+        {
+            q: "Bok trójkąta równobocznego ma 10 cm. Jaka jest jego wysokość?",
+            imgSrc: null,
+            hint: "Podstaw do wzoru: (10√3) / 2. Skróć 10 z 2.",
+            a: ["5√3", "10√3", "5√2", "20"],
+            correct: 0
+        },
+        {
+            q: "Pole trójkąta równobocznego. Wzór to:",
+            imgSrc: null, 
+            hint: "a kwadrat razy pierwiastek z 3 przez CZTERY.",
+            a: ["(a²√3) / 4", "(a²√3) / 2", "a * h", "a²"],
+            correct: 0
+        },
+
+        // --- ZADANIA Z KLUCZA ODPOWIEDZI (REKONSTRUKCJA) ---
+        {
+            q: "Czy trójkąt o bokach 6, 8, 10 jest prostokątny?",
+            imgSrc: null,
+            hint: "Sprawdź Pitagorasa: czy 6² + 8² = 10²? (36 + 64 = 100).",
+            a: ["TAK", "NIE"],
+            correct: 0
+        },
+        {
+            q: "Zadanie z klucza: Przeciwprostokątna trójkąta o bokach 5 i 12 wynosi...",
+            imgSrc: null,
+            hint: "5² + 12² = 25 + 144 = 169. Pierwiastek z 169 to?",
+            a: ["13", "17", "15", "14"],
+            correct: 0
+        },
+		
+		// --- GEOMETRIA PŁASKA (KĄTY) ---
         {
             q: "Zadanie 5: Spójrz na trójkąt. Mamy kąty 80° i 40°. Ile musi mieć trzeci kąt (x), skoro suma to zawsze 180°?",
             imgSrc: "zad5.jpg",
