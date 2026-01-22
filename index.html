@@ -43,7 +43,66 @@
 <script>
     // BAZA PYTAŃ Z PODPOWIEDZIAMI
     const rawQuestions = [
-        // --- TWIERDZENIE PITAGORASA (PODSTAWY) ---
+        // --- DZIAŁ 7: UKŁAD WSPÓŁRZĘDNYCH (NOWOŚĆ!) ---
+        {
+            q: "Punkt A ma współrzędne (3, -2). W której ćwiartce układu leży?",
+            imgSrc: null,
+            hint: "Pierwsza liczba (3) jest dodatnia (prawo), druga (-2) ujemna (dół). Prawo-dół to IV ćwiartka.",
+            a: ["IV ćwiartka", "I ćwiartka", "II ćwiartka", "III ćwiartka"],
+            correct: 0
+        },
+        {
+            q: "Jakie współrzędne ma środek układu współrzędnych (punkt 0)?",
+            imgSrc: null,
+            hint: "To sam środek, gdzie przecinają się osie X i Y.",
+            a: ["(0, 0)", "(1, 1)", "(0, 1)", "(1, 0)"],
+            correct: 0
+        },
+        {
+            q: "Mamy punkty A=(2, 5) i B=(2, 1). Jaka jest odległość między nimi?",
+            imgSrc: null,
+            hint: "Zauważ, że X jest taki sam (2). Policz różnicę igreków: 5 - 1 = ?",
+            a: ["4", "3", "5", "6"],
+            correct: 0
+        },
+        {
+            q: "Punkt P=(-4, -4). Gdzie on leży?",
+            imgSrc: null,
+            hint: "Lewo (minus) i Dół (minus). Lewy dolny róg to III ćwiartka.",
+            a: ["III ćwiartka", "II ćwiartka", "IV ćwiartka", "Na osi Y"],
+            correct: 0
+        },
+        // --- ZADANIA Z KLUCZA ODPOWIEDZI (Nowa Era) ---
+        {
+            q: "Zadanie z klucza: Masz punkty (-2, 0) i (2, 0). Gdzie leży środek tego odcinka?",
+            imgSrc: null,
+            hint: "Środek między -2 a 2 to zero. Wysokość się nie zmienia.",
+            a: ["(0, 0)", "(2, 2)", "(-1, 0)", "(0, 2)"],
+            correct: 0
+        },
+        {
+            q: "Jak obliczyć środek odcinka? (Wzór dla ambitnych)",
+            imgSrc: null,
+            hint: "Dodajesz iksy do siebie i dzielisz na pół. To samo z igrekami. (Średnia arytmetyczna).",
+            a: ["(x1+x2)/2 , (y1+y2)/2", "x1 - x2", "x1 * x2", "Pitagorasem"],
+            correct: 0
+        },
+        {
+            q: "Która oś to Oś OY?",
+            imgSrc: null,
+            hint: "Ygrek jest jak Yeti - stoi pionowo (albo jak krawat).",
+            a: ["Pionowa (góra-dół)", "Pozioma (lewo-prawo)", "Ukośna", "Okrągła"],
+            correct: 0
+        },
+        {
+            q: "Co to za figura: A=(0,0), B=(4,0), C=(4,3), D=(0,3)?",
+            imgSrc: null,
+            hint: "Narysuj w głowie. Podstawa 4, wysokość 3. Kąty proste.",
+            a: ["Prostokąt", "Trapez", "Trójkąt", "Romb"],
+            correct: 0
+        }
+		
+		// --- TWIERDZENIE PITAGORASA (PODSTAWY) ---
         {
             q: "Jak brzmi Twierdzenie Pitagorasa?",
             imgSrc: null, 
